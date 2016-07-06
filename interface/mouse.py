@@ -1,5 +1,6 @@
 import ctypes
 import time
+import win32gui
 
 def click_and_drag(x0,y0,x1,y1):
     '''(int,int,int,int) -> None

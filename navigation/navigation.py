@@ -4,8 +4,6 @@ from autof2.interface.send_data import SendData
 
 import time
 
-
-
 # change menues
 def to_main(tries = 25):
     send = SendData()
@@ -79,6 +77,12 @@ def to_order_order(date='',client='',plist = '03'):
                 send.send('{ENTER}')
                 send.send('F')
                 send.send('{ENTER}')
+                time.sleep(0.3)
+                screen = parse.process_scene(window.get_window())
+                if 'Create new order number' in screen[5]:
+                    send.send('{HOME}')
+                    send.send('{ENTER}')
+                print(screen)
                 send.send(plist)
                 time.sleep(0.2)
 

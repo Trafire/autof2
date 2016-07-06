@@ -1,6 +1,8 @@
 import win32gui
 import win32con
 from autof2.interface import mouse
+from autof2.interface import clipboard
+from autof2.interface.send_data import SendData
 
 def enumHandler(hwnd, lParam):
     global f2_hwnd
@@ -26,7 +28,20 @@ def drag_window():
     win32gui.ShowWindow(f2_hwnd, win32con.SW_MAXIMIZE)
     win32gui.SetForegroundWindow(f2_hwnd)
     c = get_corners(f2_hwnd)
-    mouse.click_and_drag(c[0] +25,c[1] + 50,c[2] - 25,c[3]-50)     
+    mouse.click_and_drag(c[0] +25,c[1] + 50,c[2] - 25,c[3]-50) 
+
+def get_window():
+    send = SendData()
+    drag_window()
+    send.send('%c')
+    data = None
+    for i in range(3):
+        try:
+            data = clipboard.get_clipboard()
+            break
+        except:
+            time.sleep(0.01)
+    return data        
 
 
 f2_hwnd = None

@@ -1,6 +1,5 @@
 import time
 from autof2.interface.send_data import SendData
-from autof2.interface import window
 ##from autof2.navigation import navigation
 
 class Order:
@@ -35,7 +34,7 @@ def distribution_list_supplier(screen):
             line = line[:line.index(' ')].strip()
             break
         except:
-            screen = process_scene(window.get_window())
+            screen = process_scene(helper.get_window())
             time.sleep(.1)
     return line
 
@@ -50,7 +49,7 @@ def identify_screen(screen, target, line_num=2):
                 return True
             break
         except:
-            screen = process_scene(window.get_window())
+            screen = process_scene(helper.get_window())
             time.sleep(.1)
     return False
     
@@ -61,7 +60,7 @@ def process_scene(uscreen):
         try:    
             return uscreen.split('\r\n')
         except:
-            uscreen = window.get_window()
+            uscreen = helper.get_window()
     return None
 
 def distribution_list_product(screen):
@@ -164,7 +163,7 @@ def parse_order_category(cat_name):
     items = []
     send = SendData() 
     while True:
-        screen = process_scene(window.get_window())
+        screen = process_scene(helper.get_window())
         to_process = screen[6:]
         for line in to_process:
             if '═' in line:
@@ -183,10 +182,10 @@ def parse_order_category(cat_name):
 
         send.send('{PGDN}')
         time.sleep(0.1)
-        new_screen = process_scene(window.get_window())
+        new_screen = process_scene(helper.get_window())
         if new_screen == screen:
             time.sleep(0.1)
-            new_screen = process_scene(window.get_window())
+            new_screen = process_scene(helper.get_window())
             if new_screen == screen:
                 break
     return {cat_name:items}
@@ -197,7 +196,7 @@ def parse_virtual_order_category(cat_name):
     time.sleep(0.2)
     while True:
         time.sleep(0.1)
-        screen = process_scene(window.get_window())
+        screen = process_scene(helper.get_window())
         to_process = screen[6:]
         for line in to_process:
             if '═' in line:
@@ -221,10 +220,10 @@ def parse_virtual_order_category(cat_name):
         send.send('{PGDN}')
         time.sleep(0.2)
         print("next")
-        new_screen = process_scene(window.get_window())
+        new_screen = process_scene(helper.get_window())
         if new_screen == screen:
             time.sleep(0.5)
-            new_screen = process_scene(window.get_window())
+            new_screen = process_scene(helper.get_window())
             if new_screen == screen:
                 break
     
@@ -234,7 +233,7 @@ def parse_virtual_order_category(cat_name):
 def parse_assortment_category_section(cat_name, max_pages = 30):
     send = SendData()
     send.send('{home}{home}')
-    screen = process_scene(window.get_window())
+    screen = process_scene(helper.get_window())
     old_screen = screen
     items = []
 
@@ -256,7 +255,7 @@ def parse_assortment_category_section(cat_name, max_pages = 30):
         for line in good_list:
             send.send(line[1])
             time.sleep(.15)
-            screen = process_scene(window.get_window())
+            screen = process_scene(helper.get_window())
             code = screen[-2][69:82].strip()
             name = line[2][:-4].strip()
             name = name[len(cat_name):].strip()
@@ -275,7 +274,7 @@ def parse_assortment_category_section(cat_name, max_pages = 30):
         send.send('{PGDN}')
         send.send('{home}')
         time.sleep(.3)
-        new_screen = process_scene(window.get_window())
+        new_screen = process_scene(helper.get_window())
         screen = new_screen
         if new_screen[6:] ==  old_screen[6:]:
             print(new_screen[6:])
@@ -304,7 +303,7 @@ def parse_input_purchase(screen):
 
         send.send('{PGDN}')
         time.sleep(0.5)
-        new_screen = process_scene(window.get_window())[6:]
+        new_screen = process_scene(helper.get_window())[6:]
         if screen == new_screen:
             break
         screen = new_screen
@@ -327,7 +326,7 @@ def parse_input_purchase(screen):
 def price(items,from_date,to_date,margin):
     
     navigation.to_virtual_stock(from_date,to_date)
-    screen = process_scene(window.get_window())
+    screen = process_scene(helper.get_window())
     send = SendData()
     
     for i in items:
@@ -358,7 +357,7 @@ def price(items,from_date,to_date,margin):
 ####    for date, margin in (('01/02/16',1.5),('31/01/16',1.6),('30/01/16',1.45),('02/02/16',1.6)):
 ##    for date, margin in (('02/02/16',1.6),):
 ##        send = SendData()
-##        screen = process_scene(window.get_window())
+##        screen = process_scene(helper.get_window())
 ##        navigation.to_virtual_purchase(date)
 ##        items = parse_input_purchase(screen)
 ##        price(items,date,date,margin)
@@ -373,26 +372,26 @@ def price(items,from_date,to_date,margin):
     
 ##    helper.run_purchase_list("011115", "071115","CASIFL")
 ##    time.sleep(1)
-##    screen = process_scene(window.get_window())  
+##    screen = process_scene(helper.get_window())  
 ##    o = distribution_list_product(screen)
 ##    for i in o:
 ##        print(i.client, i.name, i.quantity, i.comment )
 
 ##time.sleep(1)
 
-##screen = process_scene(window.get_window())#
+##screen = process_scene(helper.get_window())#
 ##
 ##send = SendData()
 ##items = {}
 ##
 ##
-##items = parse_input_purchase(window.get_window())
+##items = parse_input_purchase(helper.get_window())
 ##price(items,'010516','150516',1.5)
 
 
 ##for date, margin in (('03/05/16',1.6),):
 ##        send = SendData()
-##        screen = process_scene(window.get_window())
+##        screen = process_scene(helper.get_window())
 ##        navigation.to_virtual_purchase(date)
 ##        items = parse_input_purchase(screen)
 ##        price(items,date,date,margin)

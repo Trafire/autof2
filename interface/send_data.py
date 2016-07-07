@@ -16,7 +16,6 @@ class SendData(metaclass=Singleton):
     def __init__(self, window_name = "Connect 2000 (© Uniware Computer Systems BV) (Session 1 : 192.168.180.1)", shell = win32com.client.Dispatch("WScript.Shell")):
         self.window_name = window_name
 ##        self.window_name = 'notepad'
-        print("creating")
         
          
         self.shell = shell
@@ -63,7 +62,6 @@ class SendData(metaclass=Singleton):
             spamreader = csv.reader(csvfile, delimiter=',')
             for row in spamreader:
                 if row[0] != '':
-                    print(row)
                     self.f2_purchase(row[0], row[1], row[2], row[3], row[4])
 
 

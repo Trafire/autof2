@@ -9,7 +9,6 @@ def to_main(tries = 25):
     send = SendData()
     screen = None
     for ik in range(tries):
-        print(ik)
         for j in range(10):
             try:
                 screen = parse.process_scene(window.get_window())
@@ -28,7 +27,6 @@ def to_main(tries = 25):
 def traverse(menu_list):
     send = SendData()
     for m in menu_list:
-        print(m)
         send.send(m)
         send.send('{ENTER}')
 
@@ -47,7 +45,6 @@ def to_purchase_list():
             time.sleep(.1)
             screen = parse.process_scene(window.get_window())
             if parse.identify_screen(screen,'√',8):
-                print("check")
                 send.send('{UP}')
                 send.send(' ')
                 send.send('{ENTER}')
@@ -82,7 +79,6 @@ def to_order_order(date='',client='',plist = '03'):
                 if 'Create new order number' in screen[5]:
                     send.send('{HOME}')
                     send.send('{ENTER}')
-                print(screen)
                 send.send(plist)
                 time.sleep(0.2)
 
@@ -111,7 +107,6 @@ def to_virtual_stock(from_date,to_date):
         menus = ('stock','Stock virtual products','Edit stock virtual')
         traverse(menus)
         time.sleep(.5)
-##            screen = parse.process_scene(window.get__window())
         send.send(from_date)
         send.send('{enter}')
         send.send(to_date)
@@ -129,12 +124,7 @@ def to_virtual_purchase(date):
         send.send('{enter}')
         send.send(date)
         send.send('{enter}')
-##        send.send('{enter}')
-##        send.send('Insert virtual purchases')
-##        send.send('{enter}')
-##        time.sleep(.5)
-##        send.send(date)
-##        send.send('{enter}')
+
 
 def to_menu(command_order):
     send = SendData()
@@ -159,28 +149,23 @@ def to_distribution_report(date,supplier):
     send.send('{enter}')
     send.send('laserprinter')
     send.send('{enter}')
-    
 
-##if __name__ == "__main__":
-##    to_virtual_purchase('05/05/16')
-##    send = SendData()
-##    send.send('{end}')
-##    send.send('{down}')
-##    send.send('{end}')
-####    time.sleep(1)
-##    send.send('{insert}')
-##    import vday_roses
-##    send.send('{f12}')
-##
-##    
-##'''
-##to_purchase_list()
-##helper.run_purchase_list("011115", "071115","CASIFL")
-##for i in range(15):
-##    screen = parse.process_scene(window.get_window())
-##    if parse.identify_screen(screen,'Inkoop advies avc',1):
-##        print(window.get_window())
-##        break
-####    time.sleep(0.1)
-##'''
-##
+def to_pricelist_type(list_num):
+    ''' (str)->None
+    goes to list number in price
+
+    '''
+    send = SendData()
+    to_menu(('Maintenance data','Pricelists','Pricelist type'))
+    send.send('{home}')
+    time.sleep(0.5)
+    send.send('{enter}')
+    send.send(list_num)
+    send.send('{f12}')
+
+def to_iris_online_dates(list_num):
+    send = SendData()
+    to_pricelist_type(list_num)
+    send.send('{f4}')
+    send.send('{tab}')
+    

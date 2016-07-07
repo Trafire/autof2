@@ -7,15 +7,15 @@ def turn_off_iris(list_num):
     send = SendData()
     navigation.to_iris_online_dates(list_num)
     send.send('{enter}')
-    send.send('{right}')
+    send.send('00/00/00')
     send.send('{enter}')
     send.send('01/01/15')
     send.send('{enter}')
     send.send('{tab}')
     send.send('{F11}')
     send.send('y')
-    time.sleep(1)
-
+ ##    time.sleep(1)
+    
 def turn_on_iris(list_num):
     next_date = date.today() + timedelta(days=7)
     year, next_week = next_date.isocalendar()[0], next_date.isocalendar()[1]
@@ -25,16 +25,20 @@ def turn_on_iris(list_num):
     send = SendData()
     navigation.to_iris_online_dates(list_num)
     send.send('{enter}')
-    send.send('{right}')
+    send.send('00/00/00')
     send.send('{enter}')
     send.send(next_tuesday)
     send.send('{enter}')
     send.send('{tab}')
     send.send('{F11}')
     send.send('y')
-    time.sleep(1)
+##    time.sleep(1)
 
+def iris_off():
+    turn_off_iris('011')
+    turn_off_iris('052')
 
-##turn_off_iris('011')
-##turn_off_iris('052')
-
+def iris_on(include_NZ = None):
+    turn_on_iris('011')
+    if include_NZ:
+        turn_on_iris('052')

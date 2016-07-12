@@ -1,5 +1,6 @@
 import time
 from autof2.interface.send_data import SendData
+from autof2.interface import window
 ##from autof2.navigation import navigation
 
 class Order:
@@ -19,6 +20,9 @@ class Order:
 
     def __eq__(self,other):
         return (self.category,self.name,self.colour,self.grade) == (other.category,other.name,other.colour,other.grade)
+    def tupple(self):
+        return (self.category,self.name, self.grade,self.colour,
+                                        self.client,self.quantity)
     
         
 
@@ -34,7 +38,7 @@ def distribution_list_supplier(screen):
             line = line[:line.index(' ')].strip()
             break
         except:
-            screen = process_scene(helper.get_window())
+            screen = process_scene(window.get_window())
             time.sleep(.1)
     return line
 
@@ -49,7 +53,7 @@ def identify_screen(screen, target, line_num=2):
                 return True
             break
         except:
-            screen = process_scene(helper.get_window())
+            screen = process_scene(window.get_window())
             time.sleep(.1)
     return False
     

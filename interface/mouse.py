@@ -25,8 +25,6 @@ def drag_window():
     click_and_drag(c[0] +25,c[1] + 50,c[2] - 25,c[3]-50)  
     
     
-       
-
 SetCursorPos = ctypes.windll.user32.SetCursorPos
 mouse_event = ctypes.windll.user32.mouse_event
 

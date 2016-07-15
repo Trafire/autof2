@@ -54,5 +54,5 @@ def email_list(recipient, products):
     email.email_chart(title,headers,rows, subject, recipient,True)
     
 
-a = get_purchase_list_report('11/07/16','19/07/16','CAROSA')
+a = get_purchase_list_report('19/07/16','26/07/16','CADens')
 email_list("antoinewood@gmail.com",a)

@@ -349,7 +349,14 @@ def price(items,from_date,to_date,margin):
             send.send('{f11}')
             send.send('{f12}')
         
-
+def need_input():
+    screen = process_scene(window.get_window())
+    index = 0
+    for i in screen:
+        index += 1
+    if 'Visible' in screen[24] and 'Buyer' in screen[29]:
+        return False
+    return True
 
   #  def parse_assortment_report(filename = "assortment_report.html"):
         

@@ -133,7 +133,7 @@ def to_menu(command_order):
         traverse(command_order)
         time.sleep(0.02)
     
-def to_distribution_report(date,supplier):
+def to_distribution_report(date,supplier, printer = "laserprinter"):
     send = SendData()
     command_order = ('Purchase','Purchase details (suppl)','Without distribution')
     to_menu(command_order)
@@ -147,7 +147,7 @@ def to_distribution_report(date,supplier):
     send.send('{enter}')
     send.send(supplier)
     send.send('{enter}')
-    send.send('laserprinter')
+    send.send(printer)
     send.send('{enter}')
 
 def to_pricelist_type(list_num):
@@ -168,4 +168,13 @@ def to_iris_online_dates(list_num):
     to_pricelist_type(list_num)
     send.send('{f4}')
     send.send('{tab}')
-    
+
+def to_input_purchase(date):
+    send = SendData()
+    to_menu(('Purchase','Default','Input purchases'))
+    send.send('{home}')
+    time.sleep(0.5)
+    send.send('{enter}')
+    send.send(date)
+    send.send('{enter}')
+        

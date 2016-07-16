@@ -163,6 +163,18 @@ def to_pricelist_type(list_num):
     send.send(list_num)
     send.send('{f12}')
 
+def to_assortment():
+    ''' (None)->None
+    goes to Assortment Menu 
+
+    '''
+    send = SendData()
+    to_menu(('Maintenance data','Assortment'))
+    send.send('{home}')
+    time.sleep(0.5)
+    send.send('{enter}')
+
+
 def to_iris_online_dates(list_num):
     send = SendData()
     to_pricelist_type(list_num)
@@ -177,4 +189,5 @@ def to_input_purchase(date):
     send.send('{enter}')
     send.send(date)
     send.send('{enter}')
-        
+      
+

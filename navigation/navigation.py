@@ -166,7 +166,6 @@ def to_pricelist_type(list_num):
 def to_assortment():
     ''' (None)->None
     goes to Assortment Menu 
-
     '''
     send = SendData()
     to_menu(('Maintenance data','Assortment'))

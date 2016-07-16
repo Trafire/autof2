@@ -237,7 +237,7 @@ def parse_virtual_order_category(cat_name):
 def parse_assortment_category_section(cat_name, max_pages = 30):
     send = SendData()
     send.send('{home}{home}')
-    screen = process_scene(helper.get_window())
+    screen = process_scene(window.get_window())
     old_screen = screen
     items = []
 
@@ -259,7 +259,7 @@ def parse_assortment_category_section(cat_name, max_pages = 30):
         for line in good_list:
             send.send(line[1])
             time.sleep(.15)
-            screen = process_scene(helper.get_window())
+            screen = process_scene(window.get_window())
             code = screen[-2][69:82].strip()
             name = line[2][:-4].strip()
             name = name[len(cat_name):].strip()
@@ -269,7 +269,6 @@ def parse_assortment_category_section(cat_name, max_pages = 30):
             packing = int(line[6].strip())
             new_item = (code,cat_name,name,colour, length, quality, packing)
             if new_item in items:
-                print("DOUBLE")
                 return items
 
             items.append(new_item)
@@ -278,12 +277,9 @@ def parse_assortment_category_section(cat_name, max_pages = 30):
         send.send('{PGDN}')
         send.send('{home}')
         time.sleep(.3)
-        new_screen = process_scene(helper.get_window())
+        new_screen = process_scene(window.get_window())
         screen = new_screen
         if new_screen[6:] ==  old_screen[6:]:
-            print(new_screen[6:])
-            print(old_screen[6:])
-            print("MATCH")
             break
         old_screen = new_screen
 
@@ -408,3 +404,4 @@ def need_input():
 ##        price(items,date,date,margin)
 
         
+a = parse_assortment_category_section('Alstro ON')

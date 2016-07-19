@@ -173,6 +173,27 @@ def to_assortment():
     time.sleep(0.5)
     send.send('{enter}')
 
+def to_assortment_category(category):
+    target = ' ' + category + ' '
+    send = SendData()
+    to_assortment()
+    time.sleep(.5)
+    old_screen = window.get_window()
+    while category.lower() not in old_screen.lower():
+        send.send('{PGDN}')
+        time.sleep(0.2)
+        if old_screen == window.get_window():
+            return None
+        old_screen = window.get_window()
+    index = old_screen.index(target)
+    category_number = old_screen[index - 3: index].strip('║')
+    send.send(category_number)
+    send.send('{enter}')
+    send.send('+{F11}') 
+    time.sleep(.5)
+    return True
+    
+    
 
 def to_iris_online_dates(list_num):
     send = SendData()
@@ -189,4 +210,3 @@ def to_input_purchase(date):
     send.send(date)
     send.send('{enter}')
       
-

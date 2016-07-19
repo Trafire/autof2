@@ -273,7 +273,7 @@ def parse_assortment_category_section(cat_name, max_pages = 30):
 
             items.append(new_item)
                 
-            print((code,cat_name,name,colour,length,quality,packing))
+##            print((code,cat_name,name,colour,length,quality,packing))
         send.send('{PGDN}')
         send.send('{home}')
         time.sleep(.3)
@@ -402,6 +402,6 @@ def need_input():
 ##        navigation.to_virtual_purchase(date)
 ##        items = parse_input_purchase(screen)
 ##        price(items,date,date,margin)
-
-        
-a = parse_assortment_category_section('Alstro ON')
+##
+##        
+##a = parse_assortment_category_section('Alstro ON')

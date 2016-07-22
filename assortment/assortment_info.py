@@ -12,6 +12,7 @@ class Assortment:
         self.filepath = filepath
         self.category = category
         self.assortment = []
+        self.lookup = {}
         if  filepath[-1] not in ('\\','/'):
 ##            self.filepath.replace('/','\\')
             self.filepath += '\\'
@@ -58,6 +59,7 @@ class Assortment:
                     index += 1
                 if product not in self.assortment:
                     self.assortment.append(product)
+                    self.lookup[product['f2_code']] = product
                 line = file.readline().strip()
             
     def compact_file(self):

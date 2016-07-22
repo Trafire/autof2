@@ -3,7 +3,7 @@ import os
 class Supplier:
     extention = '.f2s'
     identifier = 'Assortment Codes'
-    product_order = ['f2_code','price','packing','category','product_name','grade','colour']
+    product_order = ['f2_code','price','packing']
 
     def __init__(self, filepath,supplier_code):
         if not os.path.isdir(filepath):
@@ -17,6 +17,7 @@ class Supplier:
         self.supplier_code = supplier_code
 ##        self.read_file()
         self.assortment = []
+        self.searchable = set()
 
     def read_file(self):
         with open(self.filename,'r') as file:
@@ -34,14 +35,12 @@ class Supplier:
                     line = file.readline().strip()
             line = file.readline().strip()
             while line:
-                product = {}
                 index = 0
-                
-                for l in line.split('\t'):
-                    product[Supplier.product_order[index]] = l.strip()
-                    index += 1
-                if product not in self.assortment:
+                product = line.split('\t')
+                product = product[0].strip(),product[1].strip(),product[2].strip()
+                if product[0] not in self.searchable:
                     self.assortment.append(product)
+                    self.searchable.add(product[0])
                 line = file.readline().strip()
     def create_file(self,supplier_name,contact_firstname,contact_lastname,contact_email):
         if not os.path.isfile(self.filename):
@@ -54,27 +53,30 @@ class Supplier:
                 file.write(Supplier.identifier + '\n')
         
 
-    def add_product(self,f2_code,price,packing,category,product_name,grade,colour):
+    def add_product(self,f2_code,price,packing):
         if os.path.isfile(self.filename):
             
             with open(self.filename,'a') as file:
-                for c in (f2_code,price,packing,category, product_name,grade,colour):
+                for c in (f2_code,price,packing):
                     file.write(c)
                     file.write('\t')
                 file.write('\n')
             self.read_file()
             
             
-    def delete_product(self,f2_code,price,packing,category,product_name,grade,colour):
+    def delete_product(self,f2_code):
         if os.path.isfile(self.filename):
             self.read_file()
-            target = {'category': category, 'colour': colour, 'grade': grade, 'price': price, 'packing': packing, 'f2_code': f2_code, 'product_name': product_name}
-            if target in self.assortment:
-                self.assortment.remove(target)
+            
+            if f2_code in self.searchable:
+                self.searchable.remove(f2_code)
+                for p in self.assortment:
+                    if p[0] == f2_code:
+                        self.assortment.remove(p)
                 os.remove(self.filename)
                 self.create_file(self.supplier_name,self.contact_firstname,self.contact_lastname,self.contact_email)
                 for a in self.assortment:
-                    self.add_product(a['f2_code'],a['price'],a['packing'],a['category'],a['product_name'],a['grade'],a['colour'])
+                    self.add_product(a[0],a[1])
 
     def compact_file(self):
         if os.path.isfile(self.filename):
@@ -82,11 +84,10 @@ class Supplier:
             os.remove(self.filename)
             self.create_file(self.supplier_name,self.contact_firstname,self.contact_lastname,self.contact_email)
             for a in self.assortment:
-                self.add_product(a['f2_code'],a['price'],a['packing'],a['product_name'],a['grade'],a['colour'])
-    def in_assortment(self,f2_code,price,packing,category,product_name,grade,colour):
-        target = {'category': category, 'colour': colour, 'grade': grade, 'price': price, 'packing': packing, 'f2_code': f2_code, 'product_name': product_name}
+                self.add_product(a[0],a[1])
+    def in_assortment(self,f2_code):
         self.read_file()
-        return target in self.assortment
+        return f2_code in self.searchable
             
         
 def list_suppliers(filepath):
@@ -101,27 +102,30 @@ def get_supply_codes(filepath, supplier_code):
     
         s = Supplier(filepath, supplier_code)
         s.read_file()
-        f2_codes = set()
-        for sc in s.assortment:
-            f2_codes.add(sc['f2_code'])
-        return f2_codes
+        return s.searchable
+
+def get_assortment(filepath, supplier_code):
+    
+        s = Supplier(filepath, supplier_code)
+        s.read_file()
+        return s.assortment    
         
-##p = {'category': 'red', 'colour': 'Red', 'grade': '50', 'price': '0.50', 'packing': '500', 'f2_code': '6afafdas', 'product_name': 'Stuff'}
-##                
-####  
-####            
-####filepath = 'C:\\Python32\\Lib\\autof2\\supplier\\'            
+####p = {'category': 'red', 'colour': 'Red', 'grade': '50', 'price': '0.50', 'packing': '500', 'f2_code': '6afafdas', 'product_name': 'Stuff'}
+####                
+######  
+######            
+##filepath = 'C:\\Python32\\Lib\\autof2\\supplier\\'            
 #### 
-####A = Supplier(filepath,'CATEST2')
+##A = Supplier(filepath,'CATEST2')
 ####A.delete_product(p['f2_code'],p['price'],p['packing'],p['category'],p['product_name'],p['grade'],p['colour'])
-####A.create_file('Antoine Inc','Antoine','Wood','antoinewood@gmail.com')
-####A.add_product('1afafdas','0.50','500', 'red','Stuff','50','Red')
-####A.add_product('2afafdas','0.50','500','red','Stuff','50','Red')
-####A.add_product('3afafdas','0.50','500','red','Stuff','50','Red')
-####A.add_product('3afafdas','0.50','500','red','Stuff','50','Red')
-####A.add_product('4afafdas','0.50','500','red','Stuff','50','Red')
-####print(A.in_assortment('5afafdas','0.50','500','red','Stuff','50','Red'))
-####A.delete_product('6afafdas','0.50','500','red','Stuff','50','Red')
-####print(get_supply_codes(filepath,"CATEST2"))
-####A.read_file()
-####
+##A.create_file('Antoine Inc','Antoine','Wood','antoinewood@gmail.com')
+##A.add_product('1afafdas','0.50','10')
+##A.add_product('2afafdas','0.50','10')
+##A.add_product('3afafdas','0.50','10')
+##A.add_product('3afafdas','0.50','10')
+##A.add_product('4afafdas','0.50','10')
+##print(A.in_assortment('5afafdas'))
+##A.delete_product('6afafdas')
+##print(get_supply_codes(filepath,"CATEST2"))
+##A.read_file()
+

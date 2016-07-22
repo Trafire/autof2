@@ -27,7 +27,18 @@ def get_product_list(filepath,category):
     a = assortment_info.Assortment(filepath,category)
     a.read_file()
     return a.assortment
-    
+
+
+def get_product_code(filepath,f2_code):
+    for category in get_categories(filepath):
+        a = assortment_info.Assortment(filepath, category)
+        a.read_file()
+        if f2_code in a.lookup:
+            return a.lookup[f2_code]
+    print("Code not found")
+    return None
+        
+                            
     
     
 

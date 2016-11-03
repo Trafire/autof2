@@ -35,10 +35,10 @@ def turn_on_iris(list_num):
 ##    time.sleep(1)
 
 def iris_off():
-    turn_off_iris('011')
+    turn_off_iris('051')
     turn_off_iris('052')
 
 def iris_on(include_NZ = None):
-    turn_on_iris('011')
+    turn_on_iris('051')
     if include_NZ:
         turn_on_iris('052')

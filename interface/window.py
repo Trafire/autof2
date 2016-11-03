@@ -26,7 +26,11 @@ def get_corners(hwnd):
     
 def drag_window():
     win32gui.ShowWindow(f2_hwnd, win32con.SW_MAXIMIZE)
-    win32gui.SetForegroundWindow(f2_hwnd)
+    try:
+        win32gui.SetForegroundWindow(f2_hwnd)
+    except:
+        get_hwnd()
+        win32gui.SetForegroundWindow(f2_hwnd)
     c = get_corners(f2_hwnd)
     mouse.click_and_drag(c[0] +25,c[1] + 50,c[2] - 25,c[3]-50) 
 

@@ -144,7 +144,64 @@ def email_list_supplier(start_date, end_date, supplier_code, day=dates.todays_da
     
     rows.sort()
     email.email_chart(title,headers,rows,subject, recipient,True)
-    
+
+
+def run_all_purchase_list_report(from_date,to_date):
+    send = SendData()
+    run_all_purchase_list(from_date, to_date,False)
+    time.sleep(1)
+    screen = parse.process_scene(window.get_window())
+    o = parse.distribution_list_product(screen)
+    i = 0
+    while '< More >' in screen[-1] and i < 300:
+        send.send('{enter}')
+        time.sleep(0.8)
+        screen = parse.process_scene(window.get_window())
+        o.extend(parse.distribution_list_product(screen))
+        i+=1
+    send.send('{LEFT}')
+    time.sleep(1)
+    screen = parse.process_scene(window.get_window())
+    for i in range(20):
+        send.send('{LEFT 10}')
+        time.sleep(.1)
+        screen = parse.process_scene(window.get_window())
+        if 'Uniware' in screen[1]:
+##            print("found")
+            break
+##    index = 0
+##    while "From" not in screen or index > 10:
+##        send.send('{LEFT}')
+##        screen = parse.process_scene(window.get_window())
+##        index+=1
+    return o
+
+
+def run_all_purchase_list(from_date, to_date,new = True):
+    if new:
+        navigation.to_purchase_list()
+    window.drag_window()
+    send = SendData()
+    send.send(from_date)
+    send.send('{enter}')
+    send.send(to_date)
+    send.send('{enter}')
+    send.send('{DOWN}')
+    send.send('{F11}')
+    send.send('n')
+    send.send('screen')
+    send.send('{enter}')
+
+    for i in range(12):
+##        print("Try " + str(i))
+        screen = parse.process_scene(window.get_window())
+        if parse.identify_screen(screen,'Inkoop advies avc',1):
+            return window.get_window()
+        time.sleep(0.1)
+
+##run_all_purchase_list_report('08/05/17','08/05/17')
+
+##a = run_all_purchase_list_report('07/05/17','13/05/17')
 
 ##ask = get_purchase_list_report('19/07/16','26/08/16','CADens')
 ##email_list_internal('21/08/16','27/08/16','CAPINN','20/08/16') #"CAROSA", ask, "C:\\Users\\Antoine\\Desktop\\Tools\\frontend\\suppliers\\supplier_info.csv")

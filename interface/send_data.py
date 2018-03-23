@@ -16,8 +16,6 @@ class SendData(metaclass=Singleton):
     def __init__(self, window_name = "Connect 2000 (© Uniware Computer Systems BV) (Session 1 : 192.168.180.1)", shell = win32com.client.Dispatch("WScript.Shell")):
         self.window_name = window_name
 ##        self.window_name = 'notepad'
-        
-         
         self.shell = shell
     def activate_window(self):
         if self.shell.AppActivate(self.window_name):
@@ -35,6 +33,17 @@ class SendData(metaclass=Singleton):
          
         self.shell.SendKeys(data)
         time.sleep(.01)
+
+    def send_exact(self, data):
+        data = data.replace('+', '{+}')
+        data = data.replace('%', '{%}')
+        data = data.replace('^', '{^}')
+        data = data.replace('[', '{[}')
+        data = data.replace(']', '{]}')
+        data = data.replace('~', '{~}')
+        data = data.replace('(', '{(}')
+        data = data.replace(')', '{)}')
+        self.send(data)
  
     def f2_purchase(self, assortment_code, price, number, packing, supplier):
         assortment_code = assortment_code.replace('+','{+}')
@@ -73,3 +82,4 @@ class SendData(metaclass=Singleton):
 ##    purchases.f2_purchase('RSR7','1.00','1','50','CASIFL')
 ##
 ##purchases.f12()
+## dutch_window_name = 'Connect 2000 (© Uniware Computer Systems BV) (Session 1 : connect.metz.com)'

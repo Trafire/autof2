@@ -11,9 +11,13 @@ class Order:
         self.colour = colour.strip()
         self.grade = grade.strip()
         self.client = client.strip().strip('!')
+        if '/' in quantity:
+            quantity = '26'
         self.quantity = int(quantity.strip())
         self.comment = comment.strip()
         self.standing = client[0].strip() == '!'
+        self.date = ''
+        self.key = self.category + self.name + self.colour +  self.grade + self.supplier
     def __str__(self):
         return "%s %s %s %s %s %s " % (self.category,self.name, self.grade,self.colour,
                                         self.client,self.quantity)
@@ -23,6 +27,33 @@ class Order:
     def tupple(self):
         return (self.category,self.name, self.grade,self.colour,
                                         self.client,self.quantity)
+    
+    def excel_heading(self):
+            return ("OrderID","Category","Variety","Colour","Grade", "Client", "Date","Quantity","Supplier", "Standing", "Comment")
+
+    def excel_data(self):
+        return (self.key,self.category, self.name,self.colour,self.grade,self.client,self.date,self.quantity,self.supplier,str(self.standing),self.comment)
+
+    def excel_order_headings(self):
+        return ("PurchaseID","f2_supplier","Category","Variety","Colour","Grade", "Supplier", "Price", "Ordered", "Confirmed")
+
+    def excel_order_data(self):
+                return (self.key,self.supplier,self.category, self.name,self.colour,self.grade,'',0,0,0)
+
+    def excel_order_dict_vers(self):
+        return {"PurchaseID":self.key,
+                "f2_supplier":self.supplier,
+                "Category":self.category,
+                "Variety":self.name,
+                "Colour":self.colour,
+                "Grade":self.grade,
+                "Supplier":'',
+                "Price":0,
+                "Ordered":self.quantity,
+                "Confirmed":0,
+                }
+    
+        
     
         
 
@@ -64,7 +95,7 @@ def process_scene(uscreen):
         try:    
             return uscreen.split('\r\n')
         except:
-            uscreen = helper.get_window()
+            uscreen = window.get_window()
     return None
 
 def distribution_list_product(screen):
@@ -72,61 +103,87 @@ def distribution_list_product(screen):
     orders = []
     category = None
     grade = None
-    
+
     for line in screen:
-        #print(len(line))
         if (line[0:4] == '    ' and  line[4] != ' ') or (line[0:3] == '   ' and line[4] != ' '):
             category = line.strip()
 
         if category:
             if line[0] not in (' ','═','╚'):
-                name = line[0:30].strip()
-                grade = line[31:35].strip()
-                colour = line[35:40].strip()
+                name = line[0:30].strip().strip('═')
+                grade = line[31:35].strip().strip('═')
+                colour = line[35:40].strip().strip('═')
               
-                if len(line) >= 95:
-                    quantity = line[80:85].strip()
-                    client = line[85:95].strip()
+                if len(line) >= 91:
+                    quantity = line[80:85].strip().strip('═')
+                    client = line[85:95].strip().strip('═')
                     if client != '':
                         orders.append(Order(category, name,grade,colour,client,quantity,supplier))
                 if len(line) >= 103:
-                    quantity = line[95:103].strip()
-                    client = line[103:113].strip()
+                    quantity = line[95:103].strip().strip('═')
+                    client = line[103:113].strip().strip('═')
                     if client != '' :
                         orders.append(Order(category, name,grade,colour,client,quantity,supplier))
                 if len(line) >= 131:
-                    quantity = line[113:121].strip()
-                    client = line[121:131].strip()
+                    quantity = line[113:121].strip().strip('═')
+                    client = line[121:131].strip().strip('═')
                     if client != '':
                         orders.append(Order(category, name,grade,colour,client,quantity,supplier))
-    
+
+            
+
+            
             elif line[1] == '>':
-                client = line[7:15].strip()
+                client = line[7:15].strip().strip('═')
                 for o in orders:
-                    if (o.client, o.category, o.name, o.grade, o.client, o.quantity, o.supplier)== (client, category, name.strip('!'),grade,client,quantity, supplier):
-                        o.comment += line[15:].strip()
+
+                    if (o.client, o.category, o.name, o.grade, o.client, str(o.quantity), o.supplier)== (client, category, name.strip('!'),grade,client,str(quantity), supplier):
+                        o.comment += line[15:].strip().strip('═')
+            elif line[0] not in ('═','╚') and line[:5] != ' Till' and  line[1] != ' ':
+                name = line[0:30].strip().strip('═')
+                grade = line[31:35].strip().strip('═')
+                colour = line[35:40].strip().strip('═')
+              
+                if len(line) >= 95:
+                    quantity = line[80:85].strip().strip('═')
+                    client = line[85:95].strip().strip('═')
+                    if client != '':
+##                        print(line)
+                        orders.append(Order(category, name,grade,colour,client,quantity,supplier))
+                if len(line) >= 103:
+                    quantity = line[95:103].strip().strip('═')
+                    client = line[103:113].strip().strip('═')
+                    if client != '' :
+                        orders.append(Order(category, name,grade,colour,client,quantity,supplier))
+                if len(line) >= 131:
+                    quantity = line[113:121].strip().strip('═')
+                    client = line[121:131].strip().strip('═')
+                    if client != '':
+                        orders.append(Order(category, name,grade,colour,client,quantity,supplier))
+                
+                
 
             elif line[:67].strip().isdigit():
                 if len(line) >= 80:
-                    quantity = line[:67].strip()
-                    client = line[68:80].strip()
+                    quantity = line[:67].strip().strip('═')
+                    client = line[68:80].strip().strip('═')
                     if client != '':
-                        print(category, name,grade,client,quantity,supplier)
+##                        print(category, name,grade,client,quantity,supplier)
                         orders.append(Order(category, name,grade,colour,client,quantity,supplier))
                     
                 if len(line) >= 95:
-                    quantity = line[80:85].strip()
-                    client = line[85:95].strip()
+                    quantity = line[80:85].strip().strip('═')
+                    client = line[85:95].strip().strip('═')
                     if client != '':
                         orders.append(Order(category, name,grade,colour,client,quantity,supplier))
                 if len(line) >= 103:
-                    quantity = line[95:103].strip()
-                    client = line[103:113].strip()
+                    quantity = line[95:103].strip().strip('═')
+                    client = line[103:113].strip().strip('═')
                     if client != '':
                         orders.append(Order(category, name,grade,colour,client,quantity,supplier))
                 if len(line) >= 131:
-                    quantity = line[113:121].strip()
-                    client = line[121:131].strip()
+                    quantity = line[113:121].strip().strip('═')
+                    client = line[121:131].strip().strip('═')
                     if client != '':
                         orders.append(Order(category, name,grade,colour,client,quantity,supplier))
     return orders
@@ -167,7 +224,7 @@ def parse_order_category(cat_name):
     items = []
     send = SendData() 
     while True:
-        screen = process_scene(helper.get_window())
+        screen = process_scene(window.get_window())
         to_process = screen[6:]
         for line in to_process:
             if '═' in line:
@@ -186,12 +243,73 @@ def parse_order_category(cat_name):
 
         send.send('{PGDN}')
         time.sleep(0.1)
-        new_screen = process_scene(helper.get_window())
+        new_screen = process_scene(window.get_window())
         if new_screen == screen:
             time.sleep(0.1)
-            new_screen = process_scene(helper.get_window())
+            new_screen = process_scene(window.get_window())
             if new_screen == screen:
                 break
+    return {cat_name:items}
+
+
+def parse_order_category_NZ(cat_name):
+
+    items = []
+
+    send = SendData() 
+
+    while True:
+
+        screen = process_scene(window.get_window())
+
+        to_process = screen[6:]
+
+        for line in to_process:
+
+            if '═' in line:
+
+                break
+
+            line = line[4:]
+
+            l = line.split('║')
+
+            if l[0].isspace():
+
+                break
+
+            else:
+
+                quantity = l[7][:l[7].index('x')]
+
+                price = l[9].replace(',','.').strip('■').strip('▲').strip('█').strip('▼')
+
+                print(price)
+
+                items.append((l[0].strip(),l[1].strip(),l[2].strip(),l[3].strip(),l[4].strip(),quantity.strip(),price.strip()))
+
+
+
+            
+
+
+
+        send.send('{PGDN}')
+
+        time.sleep(0.1)
+
+        new_screen = process_scene(window.get_window())
+
+        if new_screen == screen:
+
+            time.sleep(0.1)
+
+            new_screen = process_scene(window.get_window())
+
+            if new_screen == screen:
+
+                break
+
     return {cat_name:items}
 
 def parse_virtual_order_category(cat_name):
@@ -200,7 +318,7 @@ def parse_virtual_order_category(cat_name):
     time.sleep(0.2)
     while True:
         time.sleep(0.1)
-        screen = process_scene(helper.get_window())
+        screen = process_scene(window.get_window())
         to_process = screen[6:]
         for line in to_process:
             if '═' in line:
@@ -224,10 +342,10 @@ def parse_virtual_order_category(cat_name):
         send.send('{PGDN}')
         time.sleep(0.2)
         print("next")
-        new_screen = process_scene(helper.get_window())
+        new_screen = process_scene(window.get_window())
         if new_screen == screen:
             time.sleep(0.5)
-            new_screen = process_scene(helper.get_window())
+            new_screen = process_scene(window.get_window())
             if new_screen == screen:
                 break
     
@@ -260,13 +378,13 @@ def parse_assortment_category_section(cat_name, max_pages = 30):
             send.send(line[1])
             time.sleep(.15)
             screen = process_scene(window.get_window())
-            code = screen[-2][69:82].strip()
+            code = screen[-2][63:82].strip()
             name = line[2][:-4].strip()
             name = name[len(cat_name):].strip()
-            colour = line[3].strip()
-            length = line[4].strip()
-            quality = line[5].strip()
-            packing = int(line[6].strip())
+            colour = line[5].strip()
+            length = line[6].strip()
+            quality = line[7].strip()
+            packing = int(line[8].strip())
             new_item = (code,cat_name,name,colour, length, quality, packing)
             if new_item in items:
                 return items
@@ -303,7 +421,7 @@ def parse_input_purchase(screen):
 
         send.send('{PGDN}')
         time.sleep(0.5)
-        new_screen = process_scene(helper.get_window())[6:]
+        new_screen = process_scene(window.get_window())[6:]
         if screen == new_screen:
             break
         screen = new_screen
@@ -326,7 +444,7 @@ def parse_input_purchase(screen):
 def price(items,from_date,to_date,margin):
     
     navigation.to_virtual_stock(from_date,to_date)
-    screen = process_scene(helper.get_window())
+    screen = process_scene(window.get_window())
     send = SendData()
     
     for i in items:
@@ -354,11 +472,157 @@ def need_input():
         return False
     return True
 
+def menu_nav_columns(col, target):
+    target = target.lower().strip()
+    screen = process_scene(window.get_window())
+    col_width = 25
+    index = 0
+    for line in screen[5:22]:
+        start = 4 + (col * col_width)
+        line_text = line[start: start + col_width].strip().lower()
+        if target == line_text:
+            return str(index)
+        index += 1
+    return False
+
+def get_menu_row(num):
+    screen = process_scene(window.get_window())
+    screen= screen[5:-4]
+    items = []
+    column_len = 24
+    for s in screen:
+        line = s[4:-1].rstrip()
+        start = column_len * (num -1)
+        end = column_len * (num)
+##        if num == 3:
+##            end+= 4
+        line = line[start:end].strip()
+        if len(line):
+            items.append(line)
+    return items
+
+
+def main_menu_row(col,item):
+    menus = get_menu_row(col)
+    i = 0
+    for menu in menus:
+        if item.strip() == menu.strip():
+            return i
+        i+=1
+
+def price_list_categories():
+    screen = process_scene(window.get_window())
+    screen= screen[8:-5]
+    categories_group_1 = []
+    for line in screen:
+        l = line.split("║")
+        categories_group_1.extend(l)
+        
+##        print(start, start + col_width)
+    categories_group_1.sort()
+    categories_group_2 = []
+    for l in categories_group_1:
+        if l.strip() != '' and '═' not in l:
+            l = l[4:]
+            l = l.strip()
+            categories_group_2.append(l)
+    return categories_group_2
+
+def get_price_list_base():
+    
+    send = SendData()
+    prices = []
+    last_screen = []
+    process_scene(window.get_window())
+    send.send('{HOME 3}')
+    time.sleep(0.2)
+    while True:
+        time.sleep(0.2)
+        screen = process_scene(window.get_window())
+        screen = screen[8:-4]
+        screen_prices = []
+        for line in screen:
+                if line[-10:-1].strip() not in  ('','═════════') :
+                    screen_prices.append(line[-10:-1].strip().replace(',','.'))
+        if screen_prices != last_screen:
+            last_screen = screen_prices
+            prices.extend(screen_prices)
+        else:
+            break
+        send.send('{PGDN}')
+        print("Down")
+        time.sleep(0.5)
+    return prices
+
+def get_categories():
+    
+    send = SendData()
+    
+    categories = []
+    old_screen = []
+    screen = process_scene(window.get_window())[6:-1]
+    send.send('{home 5}')
+    time.sleep(1) 
+    screen = process_scene(window.get_window())[6:-1]
+    while old_screen != screen:
+        old_screen = screen
+        for line in screen:
+            line = line.split('║')
+            if '══' not in line[0]:
+                for l in line[2:5]:
+                    if l[3:].rstrip() and not l[3:].rstrip().isspace():
+                        categories.append((l[3:].rstrip()))
+            else:
+                for l in line[1:4]:
+                    if l[3:].rstrip() and not l[3:].rstrip().isspace():
+                        categories.append((l[3:].rstrip()))
+            #print(line)    
+        send.send('{PGDN}')
+        time.sleep(1)   
+        screen = process_scene(window.get_window())[6:-1]
+            #a[1].split('║')[2][3:].rstrip()
+    categories.sort()
+    return categories
+
+def get_orderstatus_orders(date):
+    send = SendData()
+    screen = process_scene(window.get_window())[6:-1]
+    send.send('{home 5}')
+    screen = process_scene(window.get_window())[6:-1]
+    last_screen = None
+
+    clients = []
+    while screen != last_screen:
+        last_screen = screen
+        screen = process_scene(window.get_window())[6:-6]
+        for s in screen:
+            
+            order_num = s[20:27].strip()
+            if order_num:
+                clients.append([s[1:7].strip(),order_num, date ])
+        send.send('{pgdn}')
+        time.sleep(.5)
+    return clients
+
+def get_input_purchase_info():
+    screen = process_scene(window.get_window())
+    time.sleep(.01)
+    screen = process_scene(window.get_window())
+    assortment, price, quantity, packing, supplier, box_size  = screen[29][18:30].strip(), screen[31][18:24].strip(),\
+                                                       screen[31][48:53].strip(),screen[31][55:58].strip(), \
+                                                       screen[31][64:70].strip(),screen[31][59:62].strip()
+    packing = packing.strip('x')
+
+    return {'assortment':assortment, 'price':price, 'packing':packing, 'quantity':quantity, 'supplier':supplier,'box_size':box_size}
+
+#print(get_input_purchase_info())
+##get_orderstatus_orders('13/11/17')
+##print(menu_nav_columns(1, 'Orderstatus purchase'))
   #  def parse_assortment_report(filename = "assortment_report.html"):
-        
+      
 ##from database import *        
-        
-        
+
+process_scene(window.get_window())
 ##if __name__ == "__main__":
 ##
 ####    for date, margin in (('01/02/16',1.5),('31/01/16',1.6),('30/01/16',1.45),('02/02/16',1.6)):

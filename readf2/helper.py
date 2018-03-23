@@ -1,14 +1,19 @@
-import window
-import mouse
-import clipboard
-import parse
-import navigation
+from autof2.interface import send_data, window,mouse
+from autof2.readf2 import parse
+from autof2.navigation import navigation
+from autof2.interface.send_data import SendData
+
+##import window
+##import mouse
+##import clipboard
+##import parse
+##import navigation
 import csv
 
 import time
 import win32gui
 import win32con
-from send_data import SendData
+##from send_data import SendData
 
 def drag_window():
     win32gui.ShowWindow(window.f2_hwnd, win32con.SW_MAXIMIZE)
@@ -17,6 +22,7 @@ def drag_window():
     mouse.click_and_drag(c[0] +25,c[1] + 50,c[2] - 25,c[3]-50)
 
 def get_window():
+    send = SendData()
     send = SendData()
     drag_window()
     send.send('%c')
@@ -136,6 +142,25 @@ def make_shipment_list(date = '051115', client='CAN*ON',plist = '03'):
         send.send("{F12}")
     return items
 
+def make_shipment_list_NZ(date = '051115', client='CAN*ON',plist = '03'):
+    send = SendData()
+    navigation.to_order_order(date,client,plist)
+    screen = parse.process_scene(get_window())
+    categories = parse.order_categories(screen)
+    items = {}
+    for c in categories:
+        if navigation.to_order_category(c[0],c[1]):
+            screen = parse.process_scene(get_window())
+            ### get items
+            
+            items[c[1]] = parse.parse_order_category_NZ(c[1])[c[1]]
+            time.sleep(.1)
+            print(items[c[1]])
+
+            
+        send.send("{F12}")
+    return items
+
 def make_virtual_shipment_list(date = '051115', client='CAN*ON',plist = '03'):
     send = SendData()
     navigation.to_order_order(date,client,plist)
@@ -155,9 +180,9 @@ def make_virtual_shipment_list(date = '051115', client='CAN*ON',plist = '03'):
     return items
 
 
-def get_groupings():
+def get_groupings(grouping_loc = "D:\\BuyProg\\new\pricelist_groupings.csv"):
     groupings = {}
-    with open("pricelist_groupings.csv", 'r') as file:
+    with open(grouping_loc, 'r') as file:
         for line in file:
             line = line.strip()
             line = line.split(',')
@@ -167,7 +192,9 @@ def get_groupings():
 def open_excel(from_date,to_date,supplier):
     t, a = thursday_orders(from_date,to_date,supplier)
     
-            
+
+        
+
 
 ##if __name__ == "__main__":
 ##    send = SendData()

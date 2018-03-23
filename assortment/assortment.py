@@ -37,13 +37,6 @@ def get_product_code(filepath,f2_code):
             return a.lookup[f2_code]
     print("Code not found")
     return None
-        
-                            
-    
-    
 
-
-    
-        
-        
-    
+def test():
+    print ("test 2")

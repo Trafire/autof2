@@ -256,21 +256,22 @@ def to_menu_parsed(command_order):
 
     
 def to_distribution_report(date,supplier, printer = "laserprinter"):
-    send = SendData()
-##    command_order = ('Purchase','Purchase details (suppl)','Without distribution')
-##    to_menu(command_order)
-##    time.sleep(0.5)
-##    send.send('{enter}')
-##    time.sleep(0.5)
-    send.send(date)
-    send.send('{enter}')
-    time.sleep(0.5)
-    send.send(date)
-    send.send('{enter}')
-    send.send(supplier)
-    send.send('{enter}')
-    send.send(printer)
-    send.send('{enter}')
+    if to_main():
+        send = SendData()
+        command_order = ('Purchase','Purchase details (suppl)','Without distribution')
+        to_menu(command_order)
+        time.sleep(0.5)
+        send.send('{enter}')
+        time.sleep(0.5)
+        send.send(date)
+        send.send('{enter}')
+        time.sleep(0.5)
+        send.send(date)
+        send.send('{enter}')
+        send.send(supplier)
+        send.send('{enter}')
+        send.send(printer)
+        send.send('{enter}')
 
 def to_pricelist_type(list_num):
     ''' (str)->None

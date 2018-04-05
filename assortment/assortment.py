@@ -38,7 +38,10 @@ def get_product_code(filepath,f2_code):
     print("Code not found")
     return None
         
-                            
+def get_assortment(category):
+    if navigation.to_assortment_category(category):
+        product = parse.parse_assortment_category_section_dict(category)
+    return product
     
     
 

@@ -23,8 +23,11 @@ def Canada_enumHandler(hwnd, lParam):
             f2_hwnd =  hwnd
 
             
+#def get_hwnd():
+#    win32gui.EnumWindows(enumHandler, f2_hwnd) # stops when f2_hwnd is not None
+
 def get_hwnd():
-    win32gui.EnumWindows(enumHandler, f2_hwnd) # stops when f2_hwnd is not None
+    win32gui.EnumWindows(Dutch_enumHandler, f2_hwnd) # stops when f2_hwnd is not None
 
 
 def get_corners(hwnd):
@@ -42,7 +45,7 @@ def drag_window():
         win32gui.SetForegroundWindow(f2_hwnd)
     except:
         get_hwnd()
-        win32gui.SetForegroundWindow(f2_hwnd)
+        #win32gui.SetForegroundWindow(f2_hwnd)
     c = get_corners(f2_hwnd)
     mouse.click_and_drag(c[0] +25,c[1] + 50,c[2] - 25,c[3]-50) 
 

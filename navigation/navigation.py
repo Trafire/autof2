@@ -2,6 +2,7 @@ from autof2.readf2 import parse
 from autof2.interface import window
 from autof2.interface.send_data import SendData
 
+
 import time
 
 # change menues
@@ -9,6 +10,7 @@ def to_main(tries = 25):
     send = SendData()
     screen = None
     for ik in range(tries):
+        time.sleep(0.1)
         for j in range(10):
             try:
                 screen = parse.process_scene(window.get_window())
@@ -20,6 +22,7 @@ def to_main(tries = 25):
                 
         if parse.identify_screen(screen,'Main Menu'):
             send.send('{UP}')
+            send.send('{HOME 2}')
             return True
         send.send('{F12}')
     return False
@@ -27,7 +30,7 @@ def to_main(tries = 25):
 def traverse(menu_list):
     send = SendData()
     index = 0
-    time.sleep(.1)
+    time.sleep(.2)
     for m in menu_list:
         send.send('{Home}')
         num = parse.menu_nav_columns(index,m)
@@ -35,21 +38,23 @@ def traverse(menu_list):
             cmd = "{DOWN " + num + "}"
             send.send(cmd)
             send.send("{ENTER}")
-            time.sleep(.1)
+            time.sleep(.5)
             
         index += 1
     time.sleep(.2)
 
 def to_purchase_list():
+    send = SendData()
     if to_main():
         time.sleep(0.2)
         menus = ('Purchase','Purchaselist','Advanced')
         traverse(menus)
-        time.sleep(.2)
+        send.send('{ENTER}')
+        time.sleep(.1)
         screen = parse.process_scene(window.get_window())
         
         if parse.identify_screen(screen,'Advanced'):
-            send = SendData()
+
             send.send('{UP}')
             send.send('{ENTER}')
             time.sleep(.1)
@@ -62,21 +67,23 @@ def to_purchase_list():
             return False
         time.sleep(.1)
         screen = parse.process_scene(window.get_window())
-        return parse.identify_screen(screen,'Advanced') and  not parse.identify_screen(screen,'√',8)
+        return True #parse.identify_screen(screen,'Advanced') and  not parse.identify_screen(screen,'√',8)
         
 def to_order_order(date='',client='',plist = '03'):
     send = SendData()
+    delay = .1
+
     if to_main():
-        time.sleep(0.02)
+        time.sleep(delay)
 ##        menus = ('Orders')
 ##        traverse(menus)
         
         send.send('{HOME}')
-        time.sleep(0.02)
+        time.sleep(delay)
         send.send('{ENTER}')
-        time.sleep(0.02)
+        time.sleep(delay)
         send.send('{HOME}')
-        time.sleep(0.02)
+        time.sleep(delay)
         send.send('{HOME}')
         send.send('{ENTER}')
         time.sleep(.5)
@@ -91,13 +98,13 @@ def to_order_order(date='',client='',plist = '03'):
                 send.send('{ENTER}')
                 send.send('F')
                 send.send('{ENTER}')
-                time.sleep(0.3)
+                time.sleep(delay)
                 screen = parse.process_scene(window.get_window())
                 if 'Create new order number' in screen[5]:
                     send.send('{HOME}')
                     send.send('{ENTER}')
                 send.send(plist)
-                time.sleep(0.2)
+                time.sleep(delay)
     else:   
         return False
 
@@ -174,14 +181,11 @@ def to_order_category(cat_num, cat_name):
     send = SendData()
     send.activate_window()
     send.send(cat_num)
-    
-    
-
     for i in range(5):
         screen = parse.process_scene(window.get_window())
         if parse.identify_screen(screen, cat_name, 4):
             return True
-        time.sleep(.1)
+        time.sleep(.3)
         screen = parse.process_scene(window.get_window())
     return False        
 
@@ -226,6 +230,16 @@ def to_menu_slow(command_order):
         traverse(command_order)
         time.sleep(0.2)
 
+def to_menu_slowest(command_order):
+    send = SendData()
+    if to_main():
+        send.send("{HOME}")
+        time.sleep(1)
+        print(command_order)
+        traverse(command_order)
+        time.sleep(1)
+    return True
+
 def to_menu_parsed(command_order):
     ''' (tuple of str)=> bool
          Navigate main menu to desired window
@@ -256,16 +270,20 @@ def to_menu_parsed(command_order):
 
     
 def to_distribution_report(date,supplier, printer = "laserprinter"):
+    delay = .8
     if to_main():
+        to_main()
+        delay = .8
+        to_main()
         send = SendData()
         command_order = ('Purchase','Purchase details (suppl)','Without distribution')
         to_menu(command_order)
-        time.sleep(0.5)
+        time.sleep(delay)
         send.send('{enter}')
-        time.sleep(0.5)
+        time.sleep(delay)
         send.send(date)
         send.send('{enter}')
-        time.sleep(0.5)
+        time.sleep(delay)
         send.send(date)
         send.send('{enter}')
         send.send(supplier)
@@ -285,6 +303,42 @@ def to_pricelist_type(list_num):
     send.send('{enter}')
     send.send(list_num)
     send.send('{f12}')
+
+
+def to_purchase(date):
+    ''' (None)->None
+    goes to Assortment Menu
+    '''
+
+    match = False
+    wait = .01
+    for i in range(2):
+        send = SendData()
+        # to_menu(('Maintenance data','Assor'))
+        # hack
+        to_main()
+        send.send('Purchase')
+        send.send('{enter}')
+        time.sleep(wait)
+        send.send('{HOME}')
+        send.send('{enter}')
+
+        send.send('{home}')
+        time.sleep(wait)
+        send.send('{enter}')
+        time.sleep(wait)
+        send.send('{home}')
+        time.sleep(wait)
+        send.send('{enter}')
+        time.sleep(wait)
+        send.send(date)
+        time.sleep(wait)
+        send.send('{F11}')
+
+        screen = parse.process_scene(window.get_window())
+        if parse.identify_screen(screen, 'Purchase/distribute Flowers'):
+            return True
+    return match
 
 def to_assortment():
     ''' (None)->None
@@ -333,13 +387,41 @@ def to_assortment_category(category):
     return True
 
 
+def to_purchase_category(category, date):
+    target = ' ' + category + ' '
+    send = SendData()
+    to_purchase(date)
+    time.sleep(.5)
+    old_screen = window.get_window()
+    while category.lower() not in old_screen.lower():
+        send.send('{PGDN}')
+        time.sleep(0.5)
+        if old_screen == window.get_window():
+            return None
+        old_screen = window.get_window()
+    index = old_screen.index(target)
+    category_number = old_screen[index - 3: index].strip('║')
+    send.send(category_number)
+    send.send('{enter}')
+    send.send('+{F11}')
+    time.sleep(.5)
+    for i in range(10):
+        send.send('+{F11}')
+        send.send('{HOME 4}')
+        time.sleep(1)
+        if 'everything' in window.get_window().lower():
+            break
+    return True
+
+
+
 def to_orderstatus(date):
     if to_main():
         
         send = SendData()
         index = 0
-        while not to_menu_parsed(['Sales','Orderstatus Sales']):
-            time.sleep(.1)
+        while not to_menu_slowest(['Sales','Orderstatus Sales']):
+            time.sleep(.3)
             index += 1
             if index > 3:
                 exit()
@@ -374,7 +456,6 @@ def to_order(date, ordernumber, go_to_menu=True):
                 return False
 
 def get_order(date, ordernumber, go_to_menu=True):
-    
     to_order(date, ordernumber,go_to_menu)
     send = SendData()
     time.sleep(.3)
@@ -442,7 +523,68 @@ def get_order(date, ordernumber, go_to_menu=True):
     send.send('{F12}')    
     return items
 
+def get_order_no_nav(date, ordernumber, go_to_menu=True):
+    send = SendData()
+    index = 0
+    if 'Debet' in parse.process_scene(window.get_window())[8]:
+        return []
+    while 'Everything' not in parse.process_scene(window.get_window())[7]:
+        if index > 10:
+            exit()
+        time.sleep(.3)
+        if 'Everything' not in parse.process_scene(window.get_window())[7]:
+            send.send('+{F11}')
+        index += 1
 
+    send.send('{END 5}')
+    time.sleep(.5)
+    screen = parse.process_scene(window.get_window())[8:-4]
+    screen.reverse()
+    for line in screen:
+        if line[1:6].strip():
+            last_num = int(line[1:6].strip())
+            break
+    send.send('{HOME 5}')
+    time.sleep(.5)
+    items = []
+
+    pages = last_num // 23
+    if last_num != 23:
+        pages += 1
+    for i in range(pages):
+        screen = parse.process_scene(window.get_window())[8:-4]
+        for line in screen:
+            try:
+                if line[1:6].strip():
+                    items.append({})
+                    items[-1]['status_title'] = line[18:18 + 24].strip()
+                    q = line[18 + 25:18 + 25 + 10]
+                    q = q.strip().split('x')
+
+                    items[-1]['quantity'] = int(q[0]) * int(q[1])
+                    price = line[18 + 25 + 10 + 13: 18 + 25 + 10 + 13 + 6].replace(',', '.').strip()
+                    items[-1]['price'] = price
+            except:
+                print(line)
+
+        send.send('{PGDN}')
+        time.sleep(.5)
+
+    send.send('{HOME 5}')
+    time.sleep(.5)
+
+    for i in range(last_num):
+        send.send('+{F10}')
+        send.send('{ENTER}')
+        time.sleep(.3)
+        assortment_code = parse.process_scene(window.get_window())[9][-13:-1].strip()
+        items[i]['assortment_code'] = assortment_code
+        send.send('{ENTER}')
+        send.send('{F12}')
+        send.send('{DOWN}')
+
+    send.send('{F12}')
+    return items
 def to_iris_online_dates(list_num):
     send = SendData()
     to_pricelist_type(list_num)
@@ -565,15 +707,15 @@ def to_input_purchase_mix_insert(date):
     index = 0
     to_main()
     while not verify(points):
-
         to_menu(('Purchase', 'Per shipment', 'Input purchase mixbox'))
         send.send('{home}')
-        time.sleep(0.5)
+        time.sleep(1)
         send.send('{enter}')
         send.send(date)
         send.send('{enter}')
-        send.send('{F11}')
-        time.sleep(.3)
+        if not verify([('Airbill', 6, 5)]):
+            send.send('{F11}')
+        time.sleep(1)
         if index > 10:
             return False
         index += 9
@@ -581,7 +723,7 @@ def to_input_purchase_mix_insert(date):
 
 def verify(points):
 
-    time.sleep(.05)
+    time.sleep(1)
     screen = parse.process_scene(window.get_window())
     for p in points:
         if not p[0] in screen[p[1]][p[2]:]:
@@ -632,7 +774,69 @@ def get_window_info(targets):
 
     print(total)
 
+def get_purchase_orders(date):
+    send = SendData()
+    if to_main():
 
+        index = 0
+        retries = 2
+        points = [('Orderstatus purchase', 2, 92), ('Date :', 4, 2)]
+        while not verify(points):
+            index += 1
+            to_main()
+            to_menu(('Purchase', 'Orderstatus purchase'))
+            send.send(date)
+            send.send('{ENTER}')
+            send.send('y')
+            time.sleep(0.5)
+
+            if index > retries:
+                return False
+        ### END FUTURE WHILE loop
+        i = []
+        old_screen = ''
+        index = 0
+        points = [('ALL', 4, 63)]
+        while not verify(points):
+            send.send('+{F11}')
+            if index > retries:
+                return False
+            index += 1
+        send.send('{HOME 3}')
+        time.sleep(.5)
+        while True:
+
+            invoices = parse.process_scene(window.get_window())[6:29]
+            if old_screen == invoices:
+                return i
+            for line in invoices:
+                supplier = line[1:7].strip()
+                order_num = line[20:28].strip()
+                stems = line[49:55].strip()
+                price = line[72:81].strip()
+                if ',' in price:
+                    price = price.replace(',','.')
+                shipment = line[82:94].strip()
+                invoice_num = line[95:107].strip()
+                data = {'stems':stems, 'order_num': order_num,
+                          'supplier':supplier, 'price':price,'shipment':shipment,
+                          'invoice_num':invoice_num, 'date': date}
+                if data not in i and data['stems'] != '':
+                    i.append(data)
+            time.sleep(.1)
+            send.send('{PGDN}')
+            time.sleep(.5)
+            old_screen = invoices
+
+        return i
+    
+def activate_window():
+    window.get_window()
+#get_window_info(("ALL",))
+
+
+#print(len(get_purchase_orders('27/05/18')))
+#get_purchase_orders('27/05/18')
 #get_window_info(['mirsweet0','0,56 ','1x','25(','CAROPR'])
 
 #to_input_order('01/01/18', 'CAN*ON')

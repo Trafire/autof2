@@ -40,7 +40,7 @@ def get_product_code(filepath,f2_code):
         
 def get_assortment(category):
     if navigation.to_assortment_category(category):
-        product = parse.parse_assortment_category_section_dict(category)
+        product = parse.parse_assortment_category_section_dict(category, 100)
     return product
     
     

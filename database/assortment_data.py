@@ -1,5 +1,5 @@
 from sqlalchemy.orm import sessionmaker
-from database.model import engine, F2Category, F2Assortment
+from autof2.database.model import engine, F2Category, F2Assortment
 
 
 def get_session():
@@ -15,12 +15,11 @@ def get_f2_code(category, product, grade, colour,packing):
                                                  packing=packing,
                                                  f2_grade=grade,
                                                  f2_colour_code_id=colour).first()
-
-category = "Ecuador Roses"
-product = "Freedom"
-grade = "50"
-colour = "RD"
-packing = "25"
-
-data = get_f2_code(category, product, grade, colour,packing)
-print(data)
+## To test
+#category = "Ecuador Roses"
+#product = "Freedom"
+#grade = "50"
+#colour = "RD"
+#packing = "25"
+#data = get_f2_code(category, product, grade, colour,packing)
+#print(data)

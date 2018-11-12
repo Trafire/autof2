@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fc1daeb4-fe9e-4362-8c0a-9491b89c9359" name="Default" comment="Init comit">
-      <change afterPath="$PROJECT_DIR$/dailytasks/get_orders.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/readf2/dates.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dailytasks/purchase_distribution.py" beforeDir="false" afterPath="$PROJECT_DIR$/dailytasks/purchase_distribution.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/navigation/navigation.py" beforeDir="false" afterPath="$PROJECT_DIR$/navigation/navigation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/assortment_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/database/assortment_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,7 +17,7 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/autof2$Unittests_in_test_py.coverage" NAME="Unittests in test.py Coverage Results" MODIFIED="1536598977796" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/testing" />
-    <SUITE FILE_PATH="coverage/autof2$get_orders.coverage" NAME="get_orders Coverage Results" MODIFIED="1538675884518" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dailytasks" />
+    <SUITE FILE_PATH="coverage/autof2$get_orders.coverage" NAME="get_orders Coverage Results" MODIFIED="1542042174879" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/dailytasks" />
   </component>
   <component name="FUSProjectUsageTrigger">
     <session id="46065654">
@@ -53,13 +52,31 @@
         </counts>
       </usages-collector>
     </session>
+    <session id="-1642161391">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.open.time.2" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="txt" value="3" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="PLAIN_TEXT" value="3" />
+        </counts>
+      </usages-collector>
+    </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dailytasks/purchase_distribution.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
+            <state relative-caret-position="174">
               <caret line="29" column="24" selection-start-line="29" selection-start-column="24" selection-end-line="29" selection-end-column="24" />
               <folding>
                 <element signature="e#0#40#0" expanded="true" />
@@ -68,27 +85,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/navigation/navigation.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7684">
-              <caret line="452" selection-start-line="452" selection-end-line="452" />
-              <folding>
-                <element signature="e#0#31#0" expanded="true" />
-                <marker date="1538655153154" expanded="true" signature="12415:12545" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/dailytasks/get_orders.py">
+        <entry file="file://$PROJECT_DIR$/requirements.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="173" selection-start-line="173" selection-end-line="173" />
-              <folding>
-                <element signature="e#0#40#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="238">
+              <caret line="14" column="9" selection-start-line="14" selection-end-line="14" selection-end-column="9" />
             </state>
           </provider>
         </entry>
@@ -105,7 +106,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/testing/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
+            <state relative-caret-position="306">
               <caret line="18" selection-start-line="18" selection-end-line="18" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
@@ -131,7 +132,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/purchase/purchase.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="935">
+            <state relative-caret-position="1003">
               <caret line="59" column="34" selection-start-line="59" selection-start-column="34" selection-end-line="59" selection-end-column="34" />
               <folding>
                 <element signature="e#0#47#0" expanded="true" />
@@ -204,10 +205,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-1663" />
-    <option name="y" value="34" />
-    <option name="width" value="1620" />
-    <option name="height" value="914" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1616" />
+    <option name="height" value="876" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -226,72 +227,7 @@
             <path>
               <item name="autof2" type="b2602c69:ProjectViewProjectNode" />
               <item name="autof2" type="462c0819:PsiDirectoryNode" />
-              <item name="dailytasks" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="autof2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="autof2" type="462c0819:PsiDirectoryNode" />
-              <item name="readf2" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="autof2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-            </path>
-            <path>
-              <item name="autof2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; Python 3.4 &gt;" type="70bed36:NamedLibraryElementNode" />
-            </path>
-            <path>
-              <item name="autof2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; Python 3.4 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="Python34" type="b5f07198:RTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="autof2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; Python 3.4 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="Python34" type="b5f07198:RTreeStructureProvider$1" />
-              <item name="Lib" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="autof2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; Python 3.4 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="Python34" type="b5f07198:RTreeStructureProvider$1" />
-              <item name="Lib" type="462c0819:PsiDirectoryNode" />
-              <item name="autof2" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="autof2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; Python 3.4 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="Python34" type="b5f07198:RTreeStructureProvider$1" />
-              <item name="Lib" type="462c0819:PsiDirectoryNode" />
-              <item name="autof2" type="462c0819:PsiDirectoryNode" />
-              <item name="readf2" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="autof2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; Python 3.4 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="Lib" type="b5f07198:RTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="autof2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; Python 3.4 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="Lib" type="b5f07198:RTreeStructureProvider$1" />
-              <item name="autof2" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="autof2" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; Python 3.4 &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="Lib" type="b5f07198:RTreeStructureProvider$1" />
-              <item name="autof2" type="462c0819:PsiDirectoryNode" />
-              <item name="dailytasks" type="462c0819:PsiDirectoryNode" />
+              <item name="database" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -482,19 +418,20 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1608" y="-8" width="1616" height="916" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21079692" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.314375" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32908162" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.37965262" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32908162" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.32780612" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3287841" />
+      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.28163773" />
       <window_info anchor="bottom" id="Python Console" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Docker" order="11" show_stripe_button="false" />
@@ -530,9 +467,7 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../../cx_Freeze-wininst.log">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/../../cx_Freeze-wininst.log" />
     <entry file="file://$PROJECT_DIR$/assortment/assortment.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="323">
@@ -581,27 +516,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dailytasks/purchase_distribution.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="29" column="24" selection-start-line="29" selection-start-column="24" selection-end-line="29" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/navigation/navigation.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7684">
-          <caret line="452" selection-start-line="452" selection-end-line="452" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-            <marker date="1538655153154" expanded="true" signature="12415:12545" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/invoice_reader/komet_reader.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
@@ -611,7 +525,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/testing/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
+        <state relative-caret-position="306">
           <caret line="18" selection-start-line="18" selection-end-line="18" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
@@ -621,19 +535,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/orders/orders.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="10" column="22" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#40#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/purchase/purchase.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="935">
+        <state relative-caret-position="1003">
           <caret line="59" column="34" selection-start-line="59" selection-start-column="34" selection-end-line="59" selection-end-column="34" />
           <folding>
             <element signature="e#0#47#0" expanded="true" />
@@ -648,13 +552,50 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/dailytasks/get_orders.py">
+    <entry file="file://$PROJECT_DIR$/orders/orders.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="173" selection-start-line="173" selection-end-line="173" />
+        <state relative-caret-position="119">
+          <caret line="10" column="22" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
           <folding>
             <element signature="e#0#40#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dailytasks/get_orders.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2329">
+          <caret line="137" column="17" lean-forward="true" selection-start-line="137" selection-start-column="17" selection-end-line="137" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/navigation/navigation.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="539">
+          <caret line="452" selection-start-line="452" selection-end-line="452" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dailytasks/purchase_distribution.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="29" column="24" selection-start-line="29" selection-start-column="24" selection-end-line="29" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/requirements.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="9" selection-start-line="14" selection-end-line="14" selection-end-column="9" />
         </state>
       </provider>
     </entry>

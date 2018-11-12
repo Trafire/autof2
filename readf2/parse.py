@@ -192,6 +192,7 @@ def order_categories(screen):
     categories = []
     line_num = 6
     while line_num < 30 and "═" not in screen[line_num]:
+
         if screen[line_num][1] == ' ':
             start = 1
         else:
@@ -212,6 +213,40 @@ def order_categories(screen):
                 cat_name = c[3:].strip()
                 categories.append((cat_num,cat_name))
 ##                print(cat_num + " , " + cat_name)
+                line = line[end:]
+            except:
+                break
+        line_num += 1
+
+    categories.sort()
+    return categories
+
+
+def pricelist_categories(screen):
+    categories = []
+    line_num = 8
+    while line_num < 30 and "═" not in screen[line_num]:
+
+        if screen[line_num][1] == ' ':
+            start = 1
+        else:
+            start = 0
+
+        line = screen[line_num][start:]
+        while True:
+            try:
+                start = line.index('║') + 1
+                line = line[start:]
+                end = line.index('║')
+
+                c = line[:end]
+                if c.isspace() or c.strip() == '':
+                    break
+
+                cat_num = c[:3].strip()
+                cat_name = c[3:].strip()
+                categories.append((cat_num, cat_name))
+                ##                print(cat_num + " , " + cat_name)
                 line = line[end:]
             except:
                 break
@@ -254,6 +289,36 @@ def parse_order_category(cat_name):
     return {cat_name:items}
 
 
+def parse_price_list_category(cat_name):
+    items = []
+    send = SendData()
+    while True:
+        screen = process_scene(window.get_window())
+        to_process = screen[6:]
+        for line in to_process:
+            if '═' in line:
+                break
+            line = line[4:]
+            l = line.split('║')
+            if l[0].isspace():
+                break
+            else:
+                if 'x' in line:
+                    print(l)
+                    quantity = l[7][:l[7].index('x')]
+                    price = l[9].replace(',', '.').strip('■').strip('▲').strip('█').strip('▼')
+                    print(price)
+                    items.append((l[0].strip(), l[1].strip(), l[2].strip(), quantity.strip(), price.strip()))
+
+        send.send('{PGDN}')
+        time.sleep(0.1)
+        new_screen = process_scene(window.get_window())
+        if new_screen == screen:
+            time.sleep(0.1)
+            new_screen = process_scene(window.get_window())
+            if new_screen == screen:
+                break
+    return {cat_name: items}
 def parse_order_category_NZ(cat_name):
 
     items = []
@@ -700,9 +765,67 @@ def get_input_purchase_info():
     return {'assortment':assortment, 'price':price, 'packing':packing, 'quantity':quantity, 'supplier':supplier,
             'box_size':box_size, 'name': name}
 
+def get_num_pricelist_items():
+    send = SendData()
+    old_screen = None
+    screen = process_scene(window.get_window())
+    send.send("{HOME 2}")
+    time.sleep(.5)
+    num = 0
+    while screen != old_screen:
+        screen = process_scene(window.get_window())
+        for s in screen[8:-4]:
+            if s[1:3].strip():
+                num  += 1
+        send.send("{PGDN}")
+        time.sleep(.5)
+        old_screen = screen
+        screen = process_scene(window.get_window())
+        time.sleep(.1)
+    send.send("{HOME 2}")
+    return num
 
 
 
+def read_art_info_pricelist(depth=0):
+    send = SendData()
+    window.drag_window()
+    send.send("+{F10}")
+    send.send("{UP}")
+    time.sleep(1)
+    screen = process_scene(window.get_window())
+    category_id = get_info(screen,"Agrp:", 1, 5)
+    category_name = get_info(screen,f"Articlegroup : {category_id}",1,20)
+    f2_name = get_info(screen[6:], category_name, 1, 30)
+
+    info = {"f2_code":get_info(screen,"Ofsht:", 1, 10),
+            "f2_category_id":category_id,
+            "f2_name": f2_name,
+            "f2_grade": get_info(screen, "Length/height    :", 1, 10),
+            "f2_colour_code_id": get_info(screen, "Kleur            :", 1, 3),
+            }
+
+    send.send("{F12}")
+    send.send("+{F7}")
+    time.sleep(.5)
+    screen = process_scene(window.get_window())
+    info["packing"] = get_info(screen,"Eenheden per Bos       :", 1, 5)
+    send.send("{F12}")
+    send.send("+{F10}")
+    return info
+
+def get_info(screen,target, offset, length):
+    for s in screen:
+        if target in s:
+            start = s.index(target) + len(target)
+            start += offset
+            end = start + length
+            if end > len(s):
+                end= -1
+            return s[start:end].strip()
+#info = read_art_info_pricelist()
+#for p in info:
+#    print(p,info[p])
 #print(get_input_purchase_info())
 ##get_orderstatus_orders('13/11/17')
 ##print(menu_nav_columns(1, 'Orderstatus purchase'))

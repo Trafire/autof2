@@ -9,7 +9,7 @@ def run_distribution_report(date,supplier):
     navigation.to_distribution_report(date,supplier, "screen")
 
 def pdf_email_distribution_report(date,supplier, to = "awood@fleurametz.com", title=''):
-    delay = .05
+    delay = .5
 
     navigation.to_distribution_report(date,supplier, "pdf")
     send = SendData()

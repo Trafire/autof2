@@ -230,12 +230,13 @@ def to_menu_slow(command_order):
         traverse(command_order)
         time.sleep(0.2)
 
-def to_menu_slowest(command_order):
+def to_menu_slowest(command_order, verbose=False):
     send = SendData()
     if to_main():
         send.send("{HOME}")
         time.sleep(1)
-        print(command_order)
+        if verbose:
+            print(command_order)
         traverse(command_order)
         time.sleep(1)
     return True
@@ -428,6 +429,33 @@ def to_orderstatus(date):
         send.send(date)
         send.send('{ENTER}')
 
+
+def to_orderstatus_range(date):
+    if to_main():
+
+        send = SendData()
+        index = 0
+        while not to_menu_slowest(['Sales', 'Orderstatus sales (f/t)']):
+            time.sleep(.3)
+            index += 1
+            if index > 3:
+                exit()
+        send.send(date)
+        send.send('{ENTER}')
+
+
+def get_order_status_orders(date, company="CAN"):
+    to_orderstatus_range(date)
+    send = SendData()
+    send.send("{F9}")
+    send.send(company)
+    send.send("{enter}")
+
+
+
+
+
+
 def to_order(date, ordernumber, go_to_menu=True):
     send = SendData()
     if go_to_menu:
@@ -513,11 +541,18 @@ def get_order(date, ordernumber, go_to_menu=True):
         send.send('+{F10}')
         send.send('{ENTER}')
         time.sleep(.3)
-        assortment_code = parse.process_scene(window.get_window())[9][-13:-1].strip()
+        for j in range(20):
+            assortment_code = parse.process_scene(window.get_window())[9][-13:-1].strip()
+            if "║" not in assortment_code:
+                break
+            else:
+                time.sleep(.1)
+
         items[i]['assortment_code'] = assortment_code
         send.send('{ENTER}')
         send.send('{F12}')
         send.send('{DOWN}')
+        time.sleep(.05)
         
         
     send.send('{F12}')    
@@ -865,3 +900,4 @@ def activate_window():
 ##to_standing_update(date=date, to_date= to_date, client=client, plist='11')
 ##send.send('{enter}')
 #to_input_order('09/01/18', 'ROCKWO', 21)
+#print(get_order("01/10/18", "409882", go_to_menu=True))

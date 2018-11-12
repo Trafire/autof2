@@ -14,8 +14,10 @@ def Dutch_enumHandler(hwnd, lParam):
     global f2_hwnd
     if win32gui.IsWindowVisible(hwnd):
         if 'Connect 2000 (© Uniware Computer Systems BV) (Session 1 : connect.metz.com)' in win32gui.GetWindowText(hwnd):
-            f2_hwnd =  hwnd            
-       
+            f2_hwnd =  hwnd
+        elif 'Connect (© Uniware Computer Systems BV) (Session 1 : connect.metz.com)' in win32gui.GetWindowText(hwnd):
+            f2_hwnd =  hwnd
+
 def Canada_enumHandler(hwnd, lParam):
     global f2_hwnd
     if win32gui.IsWindowVisible(hwnd):

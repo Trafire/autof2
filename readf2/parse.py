@@ -241,13 +241,11 @@ def parse_order_category(cat_name):
                     print(price)
                     items.append((l[0].strip(),l[1].strip(),l[2].strip(),quantity.strip(),price.strip()))
 
-            
-
         send.send('{PGDN}')
         time.sleep(0.1)
         new_screen = process_scene(window.get_window())
         if new_screen == screen:
-            time.sleep(0.1)
+            time.sleep(0.3)
             new_screen = process_scene(window.get_window())
             if new_screen == screen:
                 break
@@ -486,8 +484,6 @@ def parse_input_purchase(screen):
         screen = new_screen
     return items
     
-
-        
 ##        i = 1
 ##        i = screen[line_num][i:].index('║')
 ##
@@ -499,7 +495,6 @@ def parse_input_purchase(screen):
 ##        print(cat_name)
 ##        
 
-    
 def price(items,from_date,to_date,margin):
     
     navigation.to_virtual_stock(from_date,to_date)
@@ -614,9 +609,7 @@ def get_price_list_base():
     return prices
 
 def get_categories():
-    
     send = SendData()
-    
     categories = []
     old_screen = []
     screen = process_scene(window.get_window())[6:-1]

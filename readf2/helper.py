@@ -145,16 +145,21 @@ def make_shipment_list(date = '051115', client='CAN*ON',plist = '03'):
 def make_shipment_list_NZ(date = '051115', client='CAN*ON',plist = '03'):
     send = SendData()
     navigation.to_order_order(date,client,plist)
+    time.sleep(1.5)
     screen = parse.process_scene(get_window())
     categories = parse.order_categories(screen)
+    print(categories)
     items = {}
+    
     for c in categories:
         if navigation.to_order_category(c[0],c[1]):
+            time.sleep(.5)
             screen = parse.process_scene(get_window())
+            print(screen)
             ### get items
             
             items[c[1]] = parse.parse_order_category_NZ(c[1])[c[1]]
-            time.sleep(.1)
+            time.sleep(.3)
             print(items[c[1]])
 
             

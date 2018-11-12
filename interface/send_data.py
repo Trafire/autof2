@@ -13,13 +13,14 @@ class Singleton(type):
 
 
 class SendData(metaclass=Singleton):
-    def __init__(self, window_name = "Connect 2000 (© Uniware Computer Systems BV) (Session 1 : connect.metz.com)", shell = win32com.client.Dispatch("WScript.Shell")):
+    def __init__(self, window_name = "Connect (© Uniware Computer Systems BV) (Session 1 : connect.metz.com)", shell = win32com.client.Dispatch("WScript.Shell")):
         self.window_name = window_name
 ##        self.window_name = 'notepad'
         self.shell = shell
     def activate_window(self):
         if self.shell.AppActivate(self.window_name):
             self.shell.AppActivate(self.window_name)
+<<<<<<< HEAD
         else:
             pass
             #messagebox.showinfo(message= self.window_name + " is not open, please prepare window to accept input.\nOutput will instead print to Notepad")
@@ -27,6 +28,14 @@ class SendData(metaclass=Singleton):
             #    self.shell.Run("Notepad")
             #    self.shell.AppActivate("Notepad")
             #time.sleep(.05)
+=======
+        #else:
+        #    #messagebox.showinfo(message= self.window_name + " is not open, please prepare window to accept input.\nOutput will instead print to Notepad")
+        #    if not self.shell.AppActivate("Notepad"):
+        #       self.shell.Run("Notepad")
+        #        self.shell.AppActivate("Notepad")
+        #    time.sleep(.05)
+>>>>>>> 5f339fa874a98ca7737fb4413a2b402448e4a6f8
              
         time.sleep(.1)
  
@@ -54,8 +63,12 @@ class SendData(metaclass=Singleton):
         assortment_code = assortment_code.replace(')','{)}')'''
  
         cmd_order = ['{enter}','{down}',price,'{enter}',' ','{enter}',number,'{enter}',packing,'{enter}',supplier,'{F11}','{enter}']
+<<<<<<< HEAD
         print(assortment_code)
         self.send(assortment_code)
+=======
+        self.send_exact(assortment_code)
+>>>>>>> 5f339fa874a98ca7737fb4413a2b402448e4a6f8
         for cmd in cmd_order:
             self.send(cmd)
             #time.sleep(.01)
@@ -110,6 +123,8 @@ def convert(st):
 			else:
 				s.append([c,1])
 	return s
+
+
 #### testing code####################
 #purchases = SendData()
 #purchases.activate_window()
@@ -119,7 +134,8 @@ def convert(st):
 ##for i in range(10):
 #purchases.f2_purchase('RSR7','1.00','1','50','CASIFL')
 ##
-##purchases.f12()
+#time.sleep(1)
+#purchases.send("Aaaaaaaaaaaaaaaaaaaa")
 ## dutch_window_name = 'Connect 2000 (© Uniware Computer Systems BV) (Session 1 : connect.metz.com)'
 ##data = "dcafrege+g"
 #data = convert(data)

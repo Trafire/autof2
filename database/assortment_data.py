@@ -15,11 +15,30 @@ def get_f2_code(category, product, grade, colour,packing):
                                                  packing=packing,
                                                  f2_grade=grade,
                                                  f2_colour_code_id=colour).first()
-## To test
-#category = "Ecuador Roses"
-#product = "Freedom"
-#grade = "50"
-#colour = "RD"
-#packing = "25"
-#data = get_f2_code(category, product, grade, colour,packing)
-#print(data)
+
+def get_f2_code_no_colour(category, product, grade,packing):
+    session = get_session()
+    category = session.query(F2Category).filter_by(f2_category_description=category).first()
+    return session.query(F2Assortment).filter_by(f2_name=product,
+                                                 f2_category=category,
+                                                 packing=packing,
+                                                 f2_grade=grade
+                                                ).first()
+
+
+def one_session_get_f2_code(session,category, product, grade, colour,packing):
+    category = session.query(F2Category).filter_by(f2_category_description=category).first()
+    return session.query(F2Assortment).filter_by(f2_name=product,
+                                                 f2_category=category,
+                                                 packing=packing,
+                                                 f2_grade=grade,
+                                                 f2_colour_code_id=colour).first()
+
+def one_session_get_f2_code_no_colour(session,category, product, grade, packing):
+    category = session.query(F2Category).filter_by(f2_category_description=category).first()
+    return session.query(F2Assortment).filter_by(f2_name=product,
+                                                 f2_category=category,
+                                                 packing=packing,
+                                                 f2_grade=grade).first()
+
+

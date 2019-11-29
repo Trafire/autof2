@@ -18,9 +18,10 @@ class SendData(metaclass=Singleton):
 ##        self.window_name = 'notepad'
         self.shell = shell
     def activate_window(self):
-        if self.shell.AppActivate(self.window_name):
-            self.shell.AppActivate(self.window_name)
-<<<<<<< HEAD
+        self.shell.AppActivate(self.window_name)
+        '''if self.shell.AppActivate(self.window_name):
+            #self.shell.AppActivate(self.window_name)
+            print("activate")
         else:
             pass
             #messagebox.showinfo(message= self.window_name + " is not open, please prepare window to accept input.\nOutput will instead print to Notepad")
@@ -28,17 +29,8 @@ class SendData(metaclass=Singleton):
             #    self.shell.Run("Notepad")
             #    self.shell.AppActivate("Notepad")
             #time.sleep(.05)
-=======
-        #else:
-        #    #messagebox.showinfo(message= self.window_name + " is not open, please prepare window to accept input.\nOutput will instead print to Notepad")
-        #    if not self.shell.AppActivate("Notepad"):
-        #       self.shell.Run("Notepad")
-        #        self.shell.AppActivate("Notepad")
-        #    time.sleep(.05)
->>>>>>> 5f339fa874a98ca7737fb4413a2b402448e4a6f8
-             
-        time.sleep(.1)
- 
+        time.sleep(.1)'''
+
     def send(self, data):
         data = str(data)
         if "{" not in data:
@@ -51,7 +43,7 @@ class SendData(metaclass=Singleton):
         data = convert(data)
         data = stringfy_exact(data)
         self.send(data)
- 
+
     def f2_purchase(self, assortment_code, price, number, packing, supplier):
         '''assortment_code = assortment_code.replace('+','{+}')
         assortment_code = assortment_code.replace('%','{%}')
@@ -63,15 +55,10 @@ class SendData(metaclass=Singleton):
         assortment_code = assortment_code.replace(')','{)}')'''
  
         cmd_order = ['{enter}','{down}',price,'{enter}',' ','{enter}',number,'{enter}',packing,'{enter}',supplier,'{F11}','{enter}']
-<<<<<<< HEAD
-        print(assortment_code)
-        self.send(assortment_code)
-=======
         self.send_exact(assortment_code)
->>>>>>> 5f339fa874a98ca7737fb4413a2b402448e4a6f8
         for cmd in cmd_order:
             self.send(cmd)
-            #time.sleep(.01)
+            time.sleep(.001)
 ##        print (assortment_code)
  
     def f12(self):
@@ -89,10 +76,8 @@ class SendData(metaclass=Singleton):
 def stringfy_exact(s):
     final = ''
     special = '+%^[]~{}'
-    print(s)
     for st in s:
         if st[0] in special or st[1] > 1:
-            print(st)
             if st[1] > 1:
                 new_str = "{%s %s}" % (st[0], st[1])
             else:

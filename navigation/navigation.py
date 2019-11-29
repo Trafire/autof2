@@ -21,6 +21,7 @@ def to_main(tries = 25):
             time.sleep(0.1)
                 
         if parse.identify_screen(screen,'Main Menu'):
+            send.send('{LEFT 5}')
             send.send('{UP}')
             send.send('{HOME 2}')
             return True
@@ -43,23 +44,74 @@ def traverse(menu_list):
         index += 1
     time.sleep(.2)
 
-def to_purchase_list():
+
+def to_margeanalyse_bld(from_date, to_date, product_type, dutch = False, depth=0):
     send = SendData()
+    send.activate_window()
+    if depth > 5:
+        exit()
     if to_main():
         time.sleep(0.2)
-        menus = ('Purchase','Purchaselist','Advanced')
+        menus = ('Financial', 'Margeanalyse bld')
+        traverse(menus)
+        send.send('CAN')
+        send.send('{ENTER}')
+        send.send(product_type)
+        send.send('{ENTER}')
+        if not verify([('Margeanalyse bld', 2, 92)]):
+            return (to_margeanalyse_bld(from_date, to_date, product_type, dutch, depth + 1))
+        send.send(' ')
+        send.send(from_date)
+        send.send('{ENTER}')
+        send.send(to_date)
+        send.send('{ENTER}')
+        send.send('{F11}')
+        send.send('{ENTER}')
+        targets = [('Bedr.', 5, 5), ('Marge %', 5, 63)]
+        if not wait_for_load(targets): 
+            exit()
+        send.send('{ENTER}')
+        if dutch:
+            pass
+        else:
+            send.send('+{F11 2}')
+            targets = [('Gebied', 7, 12), ('Commissie', 7, 100)]
+        if not wait_for_load(targets):
+            exit()
+        send.send('{HOME 3}')
+        time.sleep(1)
+
+
+def wait_for_load(points, depth = 0):
+    while depth < 150:
+
+        if verify_fast(points): 
+            return True
+        else:
+            return wait_for_load(points, depth + 1)
+    return False
+        
+
+
+
+def to_purchase_list():
+    send = SendData()
+    #send.activate_window()
+    if to_main():
+        time.sleep(0.2)
+        menus = ('Purchase', 'Purchaselist', 'Advanced')
         traverse(menus)
         send.send('{ENTER}')
         time.sleep(.1)
         screen = parse.process_scene(window.get_window())
-        
-        if parse.identify_screen(screen,'Advanced'):
+
+        if parse.identify_screen(screen, 'Advanced'):
 
             send.send('{UP}')
             send.send('{ENTER}')
-            time.sleep(.1)
+            time.sleep(.1) 
             screen = parse.process_scene(window.get_window())
-            if parse.identify_screen(screen,'√',8):
+            if parse.identify_screen(screen, '√', 8):
                 send.send('{UP}')
                 send.send(' ')
                 send.send('{ENTER}')
@@ -67,7 +119,7 @@ def to_purchase_list():
             return False
         time.sleep(.1)
         screen = parse.process_scene(window.get_window())
-        return True #parse.identify_screen(screen,'Advanced') and  not parse.identify_screen(screen,'√',8)
+        return True  # parse.identify_sc
         
 def to_order_order(date='',client='',plist = '03'):
     send = SendData()
@@ -195,7 +247,6 @@ def to_virtual_stock(from_date,to_date):
         time.sleep(0.02)
         menus = ('stock','Stock virtual products','Edit stock virtual')
         traverse(menus)
-        time.sleep(.5)
         send.send(from_date)
         send.send('{enter}')
         send.send(to_date)
@@ -203,16 +254,30 @@ def to_virtual_stock(from_date,to_date):
         send.send('{enter}')
         send.send('{down}')
         send.send('{enter}')
-def to_virtual_purchase(date):
+        for i in range(20):
+            screen = parse.process_scene(window.get_window())
+            if parse.identify_screen(screen, "Edit stock virtual Flowers", line_num=2):
+                return True
+            time.sleep(.1)
+
+
+def to_virtual_purchase(date, depth=0):
     send = SendData()
     if to_main():
         time.sleep(0.04)
-        menus = ('Purchase','Default','Insert virtual')
+        menus = ('Purchase','Default','Insert virtual purchases')
         traverse(menus)
         time.sleep(.5)
         send.send('{enter}')
         send.send(date)
         send.send('{enter}')
+        for i in range(10):
+            screen = parse.process_scene(window.get_window())
+            if parse.identify_screen(screen, "Insert virtual purchases Flowers", line_num=2):
+                return True
+            time.sleep(.1)
+        if depth < 3:
+            to_virtual_purchase(date, depth = depth + 1)
 
 
 def to_menu(command_order):
@@ -273,7 +338,7 @@ def to_menu_parsed(command_order):
 def to_distribution_report(date,supplier, printer = "laserprinter"):
     delay = .8
     if to_main():
-        to_main()
+        to_main() 
         delay = .8
         to_main()
         send = SendData()
@@ -630,6 +695,7 @@ def to_input_purchase(date):
     match = False
     for i in range(20):
         send = SendData()
+        send.activate_window()
         to_menu(('Purchase', 'Default', 'Input purchases'))
         send.send('{home}')
         time.sleep(0.5)
@@ -648,21 +714,32 @@ def to_input_purchase(date):
 
     return match
 
-def to_insert_virtual_purchases(date):
+def to_insert_virtual_purchases(date, delay = .5):
     match = False
+
     for i in range(20):
         send = SendData()
+        send.activate_window()
         to_menu(('Purchase','Default','Insert virtual purchases'))
         send.send('{home}')
-        time.sleep(0.5)
+        time.sleep(delay)
         send.send('{enter}')
         send.send(date)
         send.send('{enter}')
-        time.sleep(0.5)
+        time.sleep(delay)
+        time.sleep(.8)
+        screen = parse.process_scene(window.get_window())
+        #input("break")
+        time.sleep(.8)
+        send.activate_window()
         screen = parse.process_scene(window.get_window())
         if parse.identify_screen(screen,'Insert virtual purchases Flowers'):
             screen = parse.process_scene(window.get_window())
             match = True
+            print(screen[-6])
+            #input("break")
+            time.sleep(.8)
+            send.activate_window()
             if 'Article' not in screen[-6]:
                 send = SendData()
                 send.send('{INSERT}')
@@ -769,8 +846,11 @@ def verify_fast(points):
     time.sleep(.05)
     screen = parse.process_scene(window.get_window())
     for p in points:
-        if not p[0] in screen[p[1]][p[2]:]:
-            return False
+        try:
+            if not p[0] in screen[p[1]][p[2]:]:
+                return False
+        except:
+            verify_fast(points)
     return True
 
 def to_input_order(date, client, list=21):
@@ -876,6 +956,36 @@ def activate_window():
     window.get_window()
 
 
+def switch_F2(target_system):
+    send = SendData()
+    send.activate_window()
+    if target_system == "FleuraMetz Toronto":
+        points = [('FleuraMetz Toronto', 1, 92)]
+        if verify_fast(points):
+            return True
+        else:
+            to_main()
+            send.send("{F12}")
+            send.send("y")
+            time.sleep(2)
+            send.send("07")
+            time.sleep(2)
+            send.send("1")
+            time.sleep(1)
+    elif target_system == "F2-NL":
+        points = [('F2-NL', 1, 92)]
+        if verify_fast(points):
+            return True
+        else:
+            to_main()
+            send.send("{F12}")
+            send.send("y")
+            time.sleep(.5)
+            send.send("{F12}")
+            time.sleep(.5)
+            send.send("01")
+            time.sleep(.5)
+
 
 #get_window_info(("ALL",))
 
@@ -911,3 +1021,4 @@ def activate_window():
 ##send.send('{enter}')
 #to_input_order('09/01/18', 'ROCKWO', 21)
 #print(get_order("01/10/18", "409882", go_to_menu=True))
+

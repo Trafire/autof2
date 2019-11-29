@@ -20,6 +20,7 @@ pywin32==223
 reportlab==3.4.0
 requests==2.18.4
 six==1.11.0
-SQLAlchemy==1.2.12
+SQLAlchemy==1.2.14
 urllib3==1.22
 wget==3.2
+PyMySQL==0.9.2
